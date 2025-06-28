@@ -4,9 +4,9 @@ struct TagEditView: View {
     @EnvironmentObject var monitor: PasteboardMonitor
     @EnvironmentObject var tagManager: TagManager
     let clip: ClipboardItem
+    @Binding var isPresented: Bool
     @State private var newTag = ""
-    @State private var showingTagEditor = false
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Tags")
@@ -44,12 +44,12 @@ struct TagEditView: View {
             HStack {
                 TextField("Add tag...", text: $newTag)
                     .textFieldStyle(.roundedBorder)
+                    .onSubmit {
+                        addTagAndMaybeClose()
+                    }
                 
                 Button("Add") {
-                    if !newTag.isEmpty {
-                        tagManager.addTag(newTag, to: clip)
-                        newTag = ""
-                    }
+                    addTagAndMaybeClose()
                 }
                 .disabled(newTag.isEmpty)
             }
@@ -71,8 +71,25 @@ struct TagEditView: View {
                     }
                 }
             }
+
+            HStack {
+                Spacer()
+                Button("Cancel") { isPresented = false }
+                Button("Done") { isPresented = false }
+            }
+            .padding(.top, 8)
         }
         .padding()
         .frame(width: 300)
+        .onExitCommand { isPresented = false } // Escape key closes
+    }
+
+    private func addTagAndMaybeClose() {
+        if !newTag.isEmpty {
+            tagManager.addTag(newTag, to: clip)
+            newTag = ""
+            // Optionally close after adding:
+            // isPresented = false
+        }
     }
 } 
