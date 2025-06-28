@@ -1,3 +1,6 @@
+//Clip-Card/PasteX^2
+
+
 import SwiftUI
 import AppKit
 
