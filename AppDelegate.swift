@@ -5,12 +5,11 @@
 import Cocoa
 import SwiftUI
 import SwiftData
-import HotKey
+import KeyboardShortcuts
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     var statusItem: NSStatusItem?
     var popover: NSPopover!
-    var hotKey: HotKey!
     var monitor: PasteboardMonitor!
     var modelContainer: ModelContainer!
 
@@ -30,8 +29,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         popover.contentSize         = NSSize(width: 360, height: 500)
         popover.contentViewController = hosting
 
-        hotKey = HotKey(key: .v, modifiers: [.command, .shift])
-        hotKey.keyDownHandler = { [weak self] in self?.togglePopover(nil) }
+        // Set up keyboard shortcut
+        KeyboardShortcuts.onKeyDown(for: .togglePasteX) { [weak self] in
+            self?.togglePopover(nil)
+        }
     }
 
     @objc private func updateMenuBarIcon() {
@@ -69,5 +70,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             popover.contentViewController?.view.window?.becomeKey()
         }
     }
+    
+    func closePopover() {
+        if popover.isShown {
+            popover.performClose(nil)
+        }
+    }
 }
+
 
