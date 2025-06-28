@@ -1,1 +1,18 @@
+//
+//  PasteX_3Tests.swift
+//  PasteX^3Tests
+//
+//  Created by Joshua Terranova on 6/28/25.
+//
+
+import Testing
+@testable import PasteX_3
+
+struct PasteX_3Tests {
+
+    @Test func example() async throws {
+        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+    }
+
+}
 
