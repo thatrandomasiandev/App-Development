@@ -1,3 +1,7 @@
+//App-Delegate/PasteX^2
+//Created by Joshua Terranova
+
+
 import Cocoa
 import SwiftUI
 import SwiftData
